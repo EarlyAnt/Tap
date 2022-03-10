@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>js调用android拍照</title>
+</head>
+<body>
+<center>
+    <button id="btnTakePhoto" type="button" style="width: 100%;height: 100px;font-size: 60px;"
+            onclick="btnOnclick()">拍照
+    </button>
+
+    <br/>
+
+    <p id="lblTip" style="font-size: 30px;">提示</p>
+    <br/>
+    <img id='img_id' src="http://www.runoob.com/wp-content/uploads/2013/07/pic_html5.gif"
+         style="width:100%;height:auto"/>
+</center>
+</body>
+<script>
+    var receiveImageUrl = function (url) {
+        document.getElementById("img_id").src = "file://" + url;
+        document.getElementById("lblTip").innerText = "file://" + url;
+    };
+
+    var btnOnclick = function () {
+        window.jsInterface.takePhoto();
+    };
+
+
+
+
+</script>
+</html>
