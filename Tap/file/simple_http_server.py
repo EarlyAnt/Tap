@@ -13,6 +13,10 @@ def upload_file():
         #file.close()
         
     return jsonify(msg="OK")
+    
+@app.route('/download/<filename>')
+def download_file(filename):
+	return send_file(filename, as_attachment=True)
 
 app.run(
       #host='192.168.0.103',

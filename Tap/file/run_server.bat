@@ -1,2 +1,2 @@
-python upload.py
+python simple_http_server.py
 pause
