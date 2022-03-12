@@ -5,6 +5,8 @@ import android.app.DownloadManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -15,6 +17,8 @@ import android.webkit.WebView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
@@ -134,6 +138,76 @@ public class JsInterface {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @JavascriptInterface
+    public Bitmap download(String url) {
+        //获取okHttp对象get请求
+        try {
+            Log.i(TAG, "start download + + + + + + + + + + + + +");
+            OkHttpClient client = new OkHttpClient();
+            //获取请求对象
+            Request request = new Request.Builder().url(url).build();
+            //获取响应体
+            ResponseBody body = client.newCall(request).execute().body();
+            //获取流
+            InputStream in = body.byteStream();
+            Log.i(TAG, "input stream: " + in.toString());
+            //转化为bitmap
+            Bitmap bitmap = BitmapFactory.decodeStream(in);
+            Log.i(TAG, "download one image: " + bitmap.toString());
+
+            onSaveBitmap(bitmap, mContext);
+
+            return bitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void onSaveBitmap(final Bitmap mBitmap, final Context context) {
+        // 第一步：首先保存图片
+        //将Bitmap保存图片到指定的路径/sdcard/Boohee/下，文件名以当前系统时间命名,但是这种方法保存的图片没有加入到系统图库中
+        File appDir = new File(Environment.getExternalStorageDirectory(), "/DCIM/Pictures/");
+
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+
+        String fileName = "IMG_" + System.currentTimeMillis() + ".jpg";
+        String fullName = appDir + File.separator + fileName;
+        File file = new File(fullName);
+        Log.i(TAG, "save image + + + + + + + " + fileName);
+
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 第二步：其次把文件插入到系统图库
+        try {
+            MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), fileName, null);
+            mActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mWebView.loadUrl("javascript:receiveImageUrl('" + fullName + "')");
+                }
+            });
+            Log.i(TAG, "insert image into repository " + fullName);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        /*// 第三步：最后通知图库更新
+        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file)));
+        //context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));*/
     }
 }
 
