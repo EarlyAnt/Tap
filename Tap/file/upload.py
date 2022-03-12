@@ -1,8 +1,8 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 
 app = Flask(__name__)
 
-@app.post("/upload")
+@app.route('/upload',methods = ['POST'])
 def upload_file():
     for filename, file_obj in request.files.items():
         if file_obj and filename:
