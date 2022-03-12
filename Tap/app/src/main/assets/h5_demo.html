@@ -6,35 +6,47 @@
 </head>
 <body>
 <center>
-    <!--<button id="btnTakePhoto" type="button" style="width: 100%;height: 100px;font-size: 60px;"
-            onclick="btnTakePhotoOnClick()">拍照
-    </button>
-    <br/>-->
-
+    <!--<p id="lblFileName" style="width: 100%;height: 100px;font-size: 60px;">请选择文件</p><br/>-->
+    <select id="selFiles" style="width: 100%;height: 100px;font-size: 60px;"
+            οnchange="getSelectText()">
+        <option value="1" selected>1.jpg</option>
+        <option value="2">2.jpg</option>
+        <option value="3">3.jpg</option>
+        <option value="4">h5_demo.html</option>
+    </select><br/>  
     <button id="btnUploadFile" type="button" style="width: 100%;height: 100px;font-size: 60px;"
             onclick="btnUploadFileOnClick()">上传
     </button>
-    <br/>
+    <br/><br/><br/><br/>
 
+    <button id="btnTakePhoto" type="button" style="width: 100%;height: 100px;font-size: 60px;"
+            onclick="btnTakePhotoOnClick()">拍照
+    </button>
     <p id="lblTip" style="font-size: 30px;">提示</p><br/>
 
-    <img id='img_id' src="http://www.runoob.com/wp-content/uploads/2013/07/pic_html5.gif"
+    <img id='imgPhoto' src="http://www.runoob.com/wp-content/uploads/2013/07/pic_html5.gif"
          style="width:100%;height:auto"/>
 </center>
 </body>
 <script>
-    var receiveImageUrl = function (url) {
-        document.getElementById("img_id").src = "file://" + url;
+    var receiveImageUrl = function(url) {
+        document.getElementById("imgPhoto").src = "file://" + url;
         document.getElementById("lblTip").innerText = "file://" + url;
     };
 
-    var btnTakePhotoOnClick = function () {
+    var btnTakePhotoOnClick = function() {
         window.jsInterface.takePhoto();
     };
 
     var btnUploadFileOnClick = function() {
-        //window.jsInterface.upload("https://rex-qn.gululu-a.com/houji", "h5_demo.html");
-        window.jsInterface.upload("http://192.168.0.103:5000/upload", "1.jpg");
+        window.jsInterface.upload("http://192.168.0.103:5000/upload", getSelectText());
+    };
+
+    var getSelectText = function() {
+        var selFiles = document.getElementById("selFiles");
+        var index = selFiles.selectedIndex;
+        //document.getElementById("lblFileName").innerText = selFiles[index].text;
+        return selFiles[index].text;
     };
 
 </script>

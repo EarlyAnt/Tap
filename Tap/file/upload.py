@@ -8,9 +8,9 @@ def upload_file():
         if file_obj and filename:
             file_obj.save(filename)
             
-        file = open('file_result.txt', 'w')
-        file.write(filename)
-        file.close()
+        #file = open('file_result.txt', 'w')
+        #file.write(filename)
+        #file.close()
         
     return jsonify(msg="OK")
 

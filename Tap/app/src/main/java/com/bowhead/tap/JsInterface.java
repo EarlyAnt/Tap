@@ -87,22 +87,18 @@ public class JsInterface {
     public ResponseBody upload(String url, String fileName) throws Exception {
         Log.i(TAG, String.format("url: %1$s, fileName: %2$s", url, fileName));
 
+        /*//遍历目录
         String fileList[] = mContext.getAssets().list("");//获取assets目录下的所有文件及目录名
         Log.i(TAG, "files.length: " + fileList.length);
-        File file = null;
-        byte[] bytes = null;
         if (fileList.length > 0) {//如果是目录
             for (String oneFile : fileList) {
-                //Log.i(TAG, "[" + oneFile + "]");
-                if (oneFile.equals(fileName)) {
-                    file = new File(fileName);
-                    InputStream inputStream = mContext.getAssets().open(fileName);
-                    bytes = readBinaryFileContent(inputStream);
-                    Log.i(TAG, "convert input stream to byte array + + + + + >>" + bytes.length);
-                }
+                Log.i(TAG, "[" + oneFile + "]");
             }
-        }
-        Log.i(TAG, "-------------------------------------");
+        }*/
+
+        InputStream inputStream = mContext.getAssets().open(fileName);
+        byte[] bytes = readBinaryFileContent(inputStream);
+        Log.i(TAG, "OK-------------------------------------OK");
 
         OkHttpClient client = new OkHttpClient();
         MultipartBody requestBody = new MultipartBody.Builder()
@@ -110,14 +106,6 @@ public class JsInterface {
                 .addFormDataPart(fileName, fileName,
                         RequestBody.create(bytes, MediaType.parse("multipart/form-data")))
                 .build();
-
-/*        MultipartBody requestBody = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("file", fileName,
-                        RequestBody.create(file, MediaType.parse("multipart/form-data")))
-                .build();*/
-
-        Log.i(TAG, String.format("--------------------------  url: %1$s", url));
 
         Request request = new Request.Builder()
                 .header("Content-Type", "multipart/form-data")
