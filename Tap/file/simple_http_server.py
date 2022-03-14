@@ -1,6 +1,11 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, render_template
 
 app = Flask(__name__)
+
+@app.route('/home', methods = ['GET'])
+def home():
+    if request.method == 'GET':
+        return render_template('h5_demo.html', input_text = '', res_text = '')
 
 @app.route('/upload',methods = ['POST'])
 def upload_file():

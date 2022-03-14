@@ -18,10 +18,15 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 public class MainActivity extends AppCompatActivity {
     private final static int PHOTO_REQUEST = 1000;
     private final static int PHOTO_STORY_REQUEST = 101;
     private final static int CONTACT_REQUEST = 102;
+    private String TAG = this.getClass().getName();
     private WebView webView;
     private JsInterface jsInterface;
     private Uri imageUri;
@@ -32,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         findViewById();
         init();
+        initListener();
     }
 
     private void findViewById() {
@@ -53,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         jsInterface = new JsInterface(MainActivity.this, this, webView);
         webView.addJavascriptInterface(jsInterface, JsInterface.JS_INTERFACE);
         webView.loadUrl("file:///android_asset/h5_demo.html");
+        //webView.loadUrl("http://192.168.0.105:5000/home");
     }
 
     private void initListener() {
@@ -78,9 +85,29 @@ public class MainActivity extends AppCompatActivity {
             @Nullable
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                FileInputStream input;
+
+                String url = request.getUrl().toString();
+                Log.i(TAG, "url: " + url);
+
+                String key = "http://androidimg";
+                /*如果请求包含约定的字段 说明是要拿本地的图片*/
+                if (url.contains(key)) {
+                    String imgPath = url.replace(key, "");
+                    Log.i(TAG, "本地图片路径：" + imgPath.trim());
+                    try {
+                        /*重新构造WebResourceResponse  将数据已流的方式传入*/
+                        input = new FileInputStream(new File(imgPath.trim()));
+                        WebResourceResponse response = new WebResourceResponse("image/jpg", "UTF-8", input);
+
+                        /*返回WebResourceResponse*/
+                        return response;
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
                 return super.shouldInterceptRequest(view, request);
             }
-
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
@@ -94,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
             }
-
 
             @Override
             public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
@@ -110,22 +136,21 @@ public class MainActivity extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
             }
-
         });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i(this.getLocalClassName(), "onActivityResult++++    code: " + requestCode);
+        Log.i(TAG, "onActivityResult++++    code: " + requestCode);
         if (requestCode == PHOTO_REQUEST) {
             //照相回调
-            Log.i(this.getLocalClassName(), "拍照++++");
+            Log.i(TAG, "拍照++++");
 
             webView.loadUrl("javascript:receiveImageUrl('" + JsInterface.imagePath + "')");
         } else if (requestCode == PHOTO_STORY_REQUEST) {
             //相册回调
-            Log.i(this.getLocalClassName(), "相册++++");
+            Log.i(TAG, "相册++++");
         }
     }
 }
