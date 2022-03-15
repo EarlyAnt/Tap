@@ -1,0 +1,69 @@
+<html>
+  
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+  </head>
+  
+  <body style="background-color:antiquewhite;font-size: 60px;">
+    <center>
+      h5拍照上传
+      <p>
+        <!-- 详情操作页面 -->
+        <input id="file" type="file" accept="image/*" capture="camera" style="font-size: 30px;"
+        />
+        <br/>
+        <br/>
+        <!--<input type="file" accept="video/*" capture="camcorder"/>
+        <input type="file" accept="audio/*" capture="microphone" />
+        -->
+        <input type="button" value="Upload" style="font-size: 30px;" onclick="upload()"
+        />
+        <br/>
+        <p id="lblTip" style="font-size: 30px;">
+          提示
+        </p>
+        <br/>
+      </p>
+    </center>
+  </body>
+  
+  <script>
+    function upload() {
+      //showTip("<><upload_1>start + + + + +");
+
+      var formData = new FormData();
+	  var file = document.getElementById('file').files[0];
+      formData.append(file.name, file);
+      //showTip("<><upload_2>file count: " + document.getElementById('file').files.length);
+
+      var request = new XMLHttpRequest();
+      request.open('POST', 'http://192.168.0.105:5000/upload');
+
+      //获取上传进度
+      request.upload.onprogress = function(event) {
+        if (event.lengthComputable) {
+          var percent = Math.floor(event.loaded / event.total * 100);
+          //设置进度显示
+          showTip("<><upload_4>percent: " + percent);
+        }
+      };
+	  
+      //上传完成后的回调函数
+      request.onload = function() {
+        //showTip("<><upload_3>request status: " + request.status);
+
+        if (request.status === 200) {
+		  showTip("上传成功");
+        } else {　
+		  showTip("上传出错");
+        }
+      };
+	  
+      request.send(formData);
+    }
+
+    function showTip(text) {
+      document.getElementById("lblTip").innerText = text;
+    }
+  </script>
+</html>
