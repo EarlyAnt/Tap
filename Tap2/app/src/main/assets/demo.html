@@ -34,7 +34,7 @@ HTML
       如果WebViewJavascriptBridge未退出，
       则可以侦听WebViewJavascriptBridgeReady事件
     */
-    connectWebViewJavascriptBridge(function(bridge) {
+    function connectWebViewJavascriptBridge(function(bridge) {
       bridge.init(function(message, responseCallback) {
         if (responseCallback) {
           responseCallback(data);
@@ -50,6 +50,7 @@ HTML
         }
       });
     });
+
     function connectWebViewJavascriptBridge(callback) {
       if (window.WebViewJavascriptBridge) {
         callback(WebViewJavascriptBridge);
