@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+  </head>
+  <body>
+    <center>
+      <h1>Hello PixiJS</h1>
+	  <p id="lblTip">状态</p>
+	</center>
+  </body>  
+  <script>
+    /*
+	// PixiJS启动测试
+    const type = "WebGL";
+	if (!PIXI.utils.isWebGLSupported()) {
+		type = "canvas";
+	}
+	PIXI.utils.sayHello(type);
+	console.log(type);
+    */
+    
+    // Create the application helper and add its render target to the page
+    let app = new PIXI.Application({ width: 640, height: 360 });
+    let x = app.screen.width / 2;
+    let y = app.screen.height / 2;
+	console.log('x: ' + x + ', y: ' + y);
+    document.body.appendChild(app.view);
+
+    // Create the sprite and add it to the stage
+    let sprite = PIXI.Sprite.from('static/share.png');
+	// Opt-in to interactivity
+    sprite.interactive = true;
+    //Shows hand cursor
+    sprite.buttonMode = true;
+	sprite.on('pointerdown', image_click);
+    app.stage.addChild(sprite);	
+	
+    // Add a ticker callback to move the sprite back and forth
+	let playAnimation = false;
+    let elapsed = 0.0;
+    app.ticker.add((delta) => {
+	  if (playAnimation) {
+        elapsed += delta;
+        sprite.x = 100.0 + Math.cos(elapsed/50.0) * 100.0;
+	  }
+    });	
+	
+	function image_click() {      
+      playAnimation = !playAnimation;
+	  showTip(playAnimation ? '播放' : '暂停');
+	}
+	
+    function showTip(text) {
+      document.getElementById("lblTip").innerText = text;
+    }
+  </script>
+</html>
