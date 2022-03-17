@@ -1,0 +1,27 @@
+
+watingbox.png
+size: 272,100
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+box
+  rotate: true
+  xy: 205, 4
+  size: 92, 63
+  orig: 92, 63
+  offset: 0, 0
+  index: -1
+light
+  rotate: false
+  xy: 4, 6
+  size: 116, 90
+  orig: 119, 102
+  offset: 0, 0
+  index: -1
+open
+  rotate: true
+  xy: 124, 12
+  size: 84, 77
+  orig: 84, 77
+  offset: 0, 0
+  index: -1

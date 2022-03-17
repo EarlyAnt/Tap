@@ -1,0 +1,160 @@
+
+water_melon.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+drop01
+  rotate: false
+  xy: 312, 92
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+drop02
+  rotate: false
+  xy: 91, 15
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+drop03
+  rotate: false
+  xy: 293, 68
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+flower01
+  rotate: false
+  xy: 329, 101
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+flower02
+  rotate: false
+  xy: 120, 50
+  size: 11, 11
+  orig: 11, 11
+  offset: 0, 0
+  index: -1
+fruit01
+  rotate: false
+  xy: 293, 74
+  size: 15, 14
+  orig: 15, 14
+  offset: 0, 0
+  index: -1
+fruit02
+  rotate: false
+  xy: 100, 43
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+leaf01
+  rotate: true
+  xy: 2, 2
+  size: 16, 23
+  orig: 16, 23
+  offset: 0, 0
+  index: -1
+leaf02
+  rotate: false
+  xy: 70, 21
+  size: 25, 17
+  orig: 25, 17
+  offset: 0, 0
+  index: -1
+leaf03
+  rotate: false
+  xy: 70, 2
+  size: 19, 17
+  orig: 19, 17
+  offset: 0, 0
+  index: -1
+leaf04
+  rotate: false
+  xy: 312, 98
+  size: 15, 28
+  orig: 15, 28
+  offset: 0, 0
+  index: -1
+leaf05
+  rotate: false
+  xy: 70, 40
+  size: 28, 21
+  orig: 28, 21
+  offset: 0, 0
+  index: -1
+leaf06
+  rotate: false
+  xy: 262, 68
+  size: 29, 20
+  orig: 29, 20
+  offset: 0, 0
+  index: -1
+leaf_l
+  rotate: false
+  xy: 329, 112
+  size: 10, 14
+  orig: 10, 14
+  offset: 0, 0
+  index: -1
+leaf_r
+  rotate: false
+  xy: 341, 113
+  size: 9, 13
+  orig: 9, 13
+  offset: 0, 0
+  index: -1
+shadow01
+  rotate: false
+  xy: 27, 14
+  size: 19, 4
+  orig: 19, 4
+  offset: 0, 0
+  index: -1
+shadow02
+  rotate: false
+  xy: 262, 90
+  size: 48, 36
+  orig: 48, 36
+  offset: 0, 0
+  index: -1
+soil
+  rotate: false
+  xy: 2, 20
+  size: 66, 41
+  orig: 66, 41
+  offset: 0, 0
+  index: -1
+water001
+  rotate: false
+  xy: 2, 63
+  size: 63, 63
+  orig: 63, 63
+  offset: 0, 0
+  index: -1
+water002
+  rotate: false
+  xy: 67, 63
+  size: 63, 63
+  orig: 63, 63
+  offset: 0, 0
+  index: -1
+water003
+  rotate: false
+  xy: 132, 63
+  size: 63, 63
+  orig: 63, 63
+  offset: 0, 0
+  index: -1
+water004
+  rotate: false
+  xy: 197, 63
+  size: 63, 63
+  orig: 63, 63
+  offset: 0, 0
+  index: -1

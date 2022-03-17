@@ -1,0 +1,111 @@
+
+upgrade.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+arrow
+  rotate: false
+  xy: 581, 257
+  size: 233, 238
+  orig: 233, 238
+  offset: 0, 0
+  index: -1
+center effects
+  rotate: false
+  xy: 5, 5
+  size: 161, 159
+  orig: 163, 162
+  offset: 0, 0
+  index: -1
+effects01
+  rotate: false
+  xy: 302, 140
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+effects02
+  rotate: false
+  xy: 581, 176
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+level
+  rotate: true
+  xy: 819, 283
+  size: 212, 80
+  orig: 217, 86
+  offset: 5, 1
+  index: -1
+light effects
+  rotate: false
+  xy: 5, 169
+  size: 326, 326
+  orig: 328, 328
+  offset: 1, 1
+  index: -1
+lv_light/lv (1)
+  rotate: false
+  xy: 631, 210
+  size: 47, 42
+  orig: 240, 320
+  offset: 5, 270
+  index: -1
+lv_light/lv (2)
+  rotate: false
+  xy: 954, 450
+  size: 43, 45
+  orig: 240, 320
+  offset: 7, 268
+  index: -1
+lv_light/lv (3)
+  rotate: false
+  xy: 904, 398
+  size: 43, 46
+  orig: 240, 320
+  offset: 7, 268
+  index: -1
+lv_light/lv (4)
+  rotate: false
+  xy: 904, 449
+  size: 45, 46
+  orig: 240, 320
+  offset: 6, 268
+  index: -1
+lv_light/lv (5)
+  rotate: false
+  xy: 581, 205
+  size: 45, 47
+  orig: 240, 320
+  offset: 6, 267
+  index: -1
+lv_light/lv (6)
+  rotate: false
+  xy: 171, 31
+  size: 45, 46
+  orig: 240, 320
+  offset: 6, 268
+  index: -1
+mask
+  rotate: false
+  xy: 336, 175
+  size: 240, 320
+  orig: 240, 320
+  offset: 0, 0
+  index: -1
+star
+  rotate: true
+  xy: 819, 259
+  size: 19, 32
+  orig: 19, 32
+  offset: 0, 0
+  index: -1
+up
+  rotate: false
+  xy: 171, 82
+  size: 126, 82
+  orig: 131, 88
+  offset: 5, 0
+  index: -1

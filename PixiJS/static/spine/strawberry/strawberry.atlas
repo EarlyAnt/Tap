@@ -1,0 +1,279 @@
+
+strawberry.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+01leaf01
+  rotate: true
+  xy: 113, 34
+  size: 2, 10
+  orig: 2, 10
+  offset: 0, 0
+  index: -1
+01lleaf03
+  rotate: false
+  xy: 361, 90
+  size: 11, 11
+  orig: 11, 11
+  offset: 0, 0
+  index: -1
+02leaf02
+  rotate: true
+  xy: 316, 71
+  size: 12, 10
+  orig: 12, 10
+  offset: 0, 0
+  index: -1
+02lleaf01
+  rotate: false
+  xy: 329, 103
+  size: 23, 23
+  orig: 23, 23
+  offset: 0, 0
+  index: -1
+02lleaf02
+  rotate: true
+  xy: 94, 2
+  size: 13, 15
+  orig: 13, 15
+  offset: 0, 0
+  index: -1
+02lleaf03
+  rotate: false
+  xy: 69, 9
+  size: 22, 22
+  orig: 22, 22
+  offset: 0, 0
+  index: -1
+02lleaf04
+  rotate: true
+  xy: 21, 2
+  size: 15, 14
+  orig: 15, 14
+  offset: 0, 0
+  index: -1
+02lleaf05
+  rotate: false
+  xy: 37, 2
+  size: 14, 15
+  orig: 14, 15
+  offset: 0, 0
+  index: -1
+02lleaf06
+  rotate: false
+  xy: 262, 63
+  size: 19, 20
+  orig: 19, 20
+  offset: 0, 0
+  index: -1
+03leaf01
+  rotate: false
+  xy: 113, 38
+  size: 23, 23
+  orig: 23, 23
+  offset: 0, 0
+  index: -1
+03leaf02
+  rotate: false
+  xy: 183, 46
+  size: 13, 15
+  orig: 13, 15
+  offset: 0, 0
+  index: -1
+03leaf03
+  rotate: false
+  xy: 138, 39
+  size: 22, 22
+  orig: 22, 22
+  offset: 0, 0
+  index: -1
+03leaf04
+  rotate: true
+  xy: 53, 2
+  size: 15, 14
+  orig: 15, 14
+  offset: 0, 0
+  index: -1
+03leaf05
+  rotate: false
+  xy: 329, 86
+  size: 14, 15
+  orig: 14, 15
+  offset: 0, 0
+  index: -1
+03leaf06
+  rotate: false
+  xy: 162, 41
+  size: 19, 20
+  orig: 19, 20
+  offset: 0, 0
+  index: -1
+04leaf01
+  rotate: false
+  xy: 354, 103
+  size: 23, 23
+  orig: 23, 23
+  offset: 0, 0
+  index: -1
+04leaf02
+  rotate: false
+  xy: 424, 111
+  size: 13, 15
+  orig: 13, 15
+  offset: 0, 0
+  index: -1
+04leaf03
+  rotate: false
+  xy: 379, 104
+  size: 22, 22
+  orig: 22, 22
+  offset: 0, 0
+  index: -1
+04leaf04
+  rotate: false
+  xy: 93, 17
+  size: 15, 14
+  orig: 15, 14
+  offset: 0, 0
+  index: -1
+04leaf05
+  rotate: false
+  xy: 283, 68
+  size: 14, 15
+  orig: 14, 15
+  offset: 0, 0
+  index: -1
+04leaf06
+  rotate: false
+  xy: 403, 106
+  size: 19, 20
+  orig: 19, 20
+  offset: 0, 0
+  index: -1
+drop01
+  rotate: false
+  xy: 453, 122
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+drop02
+  rotate: false
+  xy: 226, 57
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+drop03
+  rotate: false
+  xy: 453, 116
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+drop04
+  rotate: false
+  xy: 459, 122
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+flower01
+  rotate: false
+  xy: 213, 50
+  size: 11, 11
+  orig: 11, 11
+  offset: 0, 0
+  index: -1
+flower02
+  rotate: false
+  xy: 345, 87
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+flower03
+  rotate: false
+  xy: 198, 48
+  size: 13, 13
+  orig: 13, 13
+  offset: 0, 0
+  index: -1
+fruit01
+  rotate: false
+  xy: 299, 70
+  size: 15, 13
+  orig: 15, 13
+  offset: 0, 0
+  index: -1
+fruit02
+  rotate: false
+  xy: 439, 114
+  size: 12, 12
+  orig: 12, 12
+  offset: 0, 0
+  index: -1
+fruit03
+  rotate: true
+  xy: 2, 2
+  size: 15, 17
+  orig: 15, 17
+  offset: 0, 0
+  index: -1
+glass
+  rotate: false
+  xy: 2, 19
+  size: 65, 42
+  orig: 65, 42
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: false
+  xy: 69, 33
+  size: 42, 28
+  orig: 42, 28
+  offset: 0, 0
+  index: -1
+shadow01
+  rotate: false
+  xy: 69, 2
+  size: 23, 5
+  orig: 23, 5
+  offset: 0, 0
+  index: -1
+soil
+  rotate: false
+  xy: 262, 85
+  size: 65, 41
+  orig: 65, 41
+  offset: 0, 0
+  index: -1
+water001
+  rotate: false
+  xy: 2, 63
+  size: 63, 63
+  orig: 63, 63
+  offset: 0, 0
+  index: -1
+water002
+  rotate: false
+  xy: 67, 63
+  size: 63, 63
+  orig: 63, 63
+  offset: 0, 0
+  index: -1
+water003
+  rotate: false
+  xy: 132, 63
+  size: 63, 63
+  orig: 63, 63
+  offset: 0, 0
+  index: -1
+water004
+  rotate: false
+  xy: 197, 63
+  size: 63, 63
+  orig: 63, 63
+  offset: 0, 0
+  index: -1
