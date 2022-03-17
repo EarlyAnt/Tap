@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+    <script src="static/js/pixi/pixi-plugins/pixi-spine.js"></script>
+  </head>
+  <body>
+    <center>
+      <h1>Hello PixiJS</h1>
+	  <p id="lblTip">状态</p>
+	</center>
+  </body>  
+  <script>
+    /*
+	// PixiJS启动测试
+    const type = "WebGL";
+	if (!PIXI.utils.isWebGLSupported()) {
+		type = "canvas";
+	}
+	PIXI.utils.sayHello(type);
+	console.log(type);
+    */
+    
+    const app = new PIXI.Application();
+	document.body.appendChild(app.view);
+
+	app.stop();
+
+	// load spine data
+	app.loader
+		.add('treasurebox', 'static/spine/treasurebox/watingbox.json')
+		//.add('treasurebox', 'static/js/pixi/pixi-spine/treasurebox.json')
+		.load(onAssetsLoaded);
+
+	let treasurebox = null;
+
+	function onAssetsLoaded(loader, res) {
+		// instantiate the spine animation
+		treasurebox = new PIXI.spine.Spine(res.treasurebox.spineData);
+		treasurebox.skeleton.setToSetupPose();
+		treasurebox.update(0);
+		treasurebox.autoUpdate = false;
+
+		// create a container for the spine animation and add the animation to it
+		const treasureboxCage = new PIXI.Container();
+		treasureboxCage.addChild(treasurebox);
+
+		// measure the spine animation and position it inside its container to align it to the origin
+		const localRect = treasurebox.getLocalBounds();
+		treasurebox.position.set(-localRect.x, -localRect.y);
+
+		// now we can scale, position and rotate the container as any other display object
+		const scale = Math.min(
+			app.screen.width * 0.0005,
+			app.screen.height * 0.0005,
+		);
+		treasureboxCage.scale.set(scale, scale);
+		treasureboxCage.position.set(
+			(app.screen.width - treasureboxCage.width) * 0.5,
+			(app.screen.height - treasureboxCage.height) * 0.5,
+		);
+
+		// add the container to the stage
+		app.stage.addChild(treasureboxCage);
+
+		// once position and scaled, set the animation to play
+		treasurebox.state.setAnimation(0, 'box02', true);
+
+		app.start();
+	}
+
+	app.ticker.add(() => {
+		// update the spine animation, only needed if treasurebox.autoupdate is set to false
+		treasurebox.update(0.01666666666667); // HARDCODED FRAMERATE!
+	});
+
+    
+	
+	function image_click() {      
+      playAnimation = !playAnimation;
+	  showTip(playAnimation ? '播放' : '暂停');
+	}
+	
+    function showTip(text) {
+      document.getElementById("lblTip").innerText = text;
+    }
+  </script>
+</html>

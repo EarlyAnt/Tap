@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+    <script src="static/js/pixi/pixi-plugins/pixi-spine.js"></script>
+  </head>
+  <body>
+    <center>
+      <h1>Hello PixiJS</h1>
+	  <p id="lblTip">状态</p>
+	</center>
+  </body>  
+  <script>
+    /*
+	// PixiJS启动测试
+    const type = "WebGL";
+	if (!PIXI.utils.isWebGLSupported()) {
+		type = "canvas";
+	}
+	PIXI.utils.sayHello(type);
+	console.log(type);
+    */
+    
+    const app = new PIXI.Application();
+	document.body.appendChild(app.view);
+
+	app.stop();
+
+	// load spine data
+	app.loader
+		.add('strawberry', 'static/spine/strawberry/strawberry.json')
+		//.add('strawberry', 'static/js/pixi/pixi-spine/strawberry.json')
+		.load(onAssetsLoaded);
+
+	let strawberry = null;
+
+	function onAssetsLoaded(loader, res) {
+		// instantiate the spine animation
+		strawberry = new PIXI.spine.Spine(res.strawberry.spineData);
+		strawberry.skeleton.setToSetupPose();
+		strawberry.update(0);
+		strawberry.autoUpdate = false;
+
+		// create a container for the spine animation and add the animation to it
+		const strawberryCage = new PIXI.Container();
+		strawberryCage.addChild(strawberry);
+
+		// measure the spine animation and position it inside its container to align it to the origin
+		const localRect = strawberry.getLocalBounds();
+		strawberry.position.set(-localRect.x, -localRect.y);
+
+		// now we can scale, position and rotate the container as any other display object
+		const scale = Math.min(
+			app.screen.width * 0.001,
+			app.screen.height * 0.001,
+		);
+		strawberryCage.scale.set(scale, scale);
+		strawberryCage.position.set(
+			(app.screen.width - strawberryCage.width) * 0.5,
+			(app.screen.height - strawberryCage.height) * 0.5,
+		);
+
+		// add the container to the stage
+		app.stage.addChild(strawberryCage);
+
+		// once position and scaled, set the animation to play
+		strawberry.state.setAnimation(0, '04leaf1', true);
+
+		app.start();
+	}
+
+	app.ticker.add(() => {
+		// update the spine animation, only needed if strawberry.autoupdate is set to false
+		strawberry.update(0.01666666666667); // HARDCODED FRAMERATE!
+	});
+
+    
+	
+	function image_click() {      
+      playAnimation = !playAnimation;
+	  showTip(playAnimation ? '播放' : '暂停');
+	}
+	
+    function showTip(text) {
+      document.getElementById("lblTip").innerText = text;
+    }
+  </script>
+</html>

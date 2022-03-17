@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+    <script src="static/js/pixi/pixi-plugins/pixi-spine.js"></script>
+  </head>
+  <body>
+    <center>
+      <h1>Hello PixiJS</h1>
+	  <p id="lblTip">状态</p>
+	</center>
+  </body>  
+  <script>
+    /*
+	// PixiJS启动测试
+    const type = "WebGL";
+	if (!PIXI.utils.isWebGLSupported()) {
+		type = "canvas";
+	}
+	PIXI.utils.sayHello(type);
+	console.log(type);
+    */
+    
+    const app = new PIXI.Application();
+	document.body.appendChild(app.view);
+
+	app.stop();
+
+	// load spine data
+	app.loader
+		.add('upgrade', 'static/spine/levelup/upgrade.json')
+		//.add('upgrade', 'static/js/pixi/pixi-spine/upgrade.json')
+		.load(onAssetsLoaded);
+
+	let upgrade = null;
+
+	function onAssetsLoaded(loader, res) {
+		// instantiate the spine animation
+		upgrade = new PIXI.spine.Spine(res.upgrade.spineData);
+		upgrade.skeleton.setToSetupPose();
+		upgrade.update(0);
+		upgrade.autoUpdate = false;
+
+		// create a container for the spine animation and add the animation to it
+		const upgradeCage = new PIXI.Container();
+		upgradeCage.addChild(upgrade);
+
+		// measure the spine animation and position it inside its container to align it to the origin
+		const localRect = upgrade.getLocalBounds();
+		upgrade.position.set(-localRect.x, -localRect.y);
+
+		// now we can scale, position and rotate the container as any other display object
+		const scale = Math.min(
+			app.screen.width * 0.0005,
+			app.screen.height * 0.0005,
+		);
+		
+		upgradeCage.scale.set(scale, scale);
+		upgradeCage.position.set(
+			(app.screen.width - upgradeCage.width) * 0.5,
+			(app.screen.height - upgradeCage.height) * 0.5,
+		);
+
+		// add the container to the stage
+		app.stage.addChild(upgradeCage);
+
+		// once position and scaled, set the animation to play
+		upgrade.state.setAnimation(0, 'lv_enter', true);
+
+		app.start();
+	}
+
+	app.ticker.add(() => {
+		// update the spine animation, only needed if upgrade.autoupdate is set to false
+		upgrade.update(0.01666666666667); // HARDCODED FRAMERATE!
+	});
+
+    
+	
+	function image_click() {      
+      playAnimation = !playAnimation;
+	  showTip(playAnimation ? '播放' : '暂停');
+	}
+	
+    function showTip(text) {
+      document.getElementById("lblTip").innerText = text;
+    }
+  </script>
+</html>

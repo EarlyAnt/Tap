@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+    <script src="static/js/pixi/pixi-plugins/pixi-spine.js"></script>
+  </head>
+  <body>
+    <center>
+      <h1>Hello PixiJS</h1>
+	  <p id="lblTip">状态</p>
+	</center>
+  </body>  
+  <script>
+    /*
+	// PixiJS启动测试
+    const type = "WebGL";
+	if (!PIXI.utils.isWebGLSupported()) {
+		type = "canvas";
+	}
+	PIXI.utils.sayHello(type);
+	console.log(type);
+    */
+    
+    const app = new PIXI.Application();
+	document.body.appendChild(app.view);
+
+	app.stop();
+
+	// load spine data
+	app.loader
+		.add('spineboy', 'static/js/pixi/pixi-spine/spineboy.json')
+		.load(onAssetsLoaded);
+
+	let spineboy = null;
+
+	function onAssetsLoaded(loader, res) {
+		// instantiate the spine animation
+		spineboy = new PIXI.spine.Spine(res.spineboy.spineData);
+		spineboy.skeleton.setToSetupPose();
+		spineboy.update(0);
+		spineboy.autoUpdate = false;
+
+		// create a container for the spine animation and add the animation to it
+		const spineboyCage = new PIXI.Container();
+		spineboyCage.addChild(spineboy);
+
+		// measure the spine animation and position it inside its container to align it to the origin
+		const localRect = spineboy.getLocalBounds();
+		spineboy.position.set(-localRect.x, -localRect.y);
+
+		// now we can scale, position and rotate the container as any other display object
+		const scale = Math.min(
+			(app.screen.width * 0.7) / spineboyCage.width,
+			(app.screen.height * 0.7) / spineboyCage.height,
+		);
+		spineboyCage.scale.set(scale, scale);
+		spineboyCage.position.set(
+			(app.screen.width - spineboyCage.width) * 0.5,
+			(app.screen.height - spineboyCage.height) * 0.5,
+		);
+
+		// add the container to the stage
+		app.stage.addChild(spineboyCage);
+
+		// once position and scaled, set the animation to play
+		spineboy.state.setAnimation(0, 'walk', true);
+
+		app.start();
+	}
+
+	app.ticker.add(() => {
+		// update the spine animation, only needed if spineboy.autoupdate is set to false
+		spineboy.update(0.01666666666667); // HARDCODED FRAMERATE!
+	});
+
+    
+	
+	function image_click() {      
+      playAnimation = !playAnimation;
+	  showTip(playAnimation ? '播放' : '暂停');
+	}
+	
+    function showTip(text) {
+      document.getElementById("lblTip").innerText = text;
+    }
+  </script>
+</html>
