@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+    <script src="static/js/pixi/pixi-plugins/pixi-spine.js"></script>
+  </head>
+  <body>
+    <center>
+      <h1>Spine动画演示</h1>
+	  <select id="selAnimation" style="width: auto;height: auto;font-size: 20px;">
+        <option value="levelup/upgrade.json|lv_enter|0.00025" selected>升级动画</option>
+        <option value="strawberry/strawberry.json|04leaf1|0.001">草莓动画</option>
+		<option value="pineapple/pineapple.json|04leaf1|0.001">菠萝动画</option>
+        <option value="treasurebox/watingbox.json|box02|0.0005">宝箱动画</option>
+      </select>&nbsp;&nbsp;&nbsp;&nbsp;
+	  
+	  <input id="" type="button" style="font-size: 18px;" onclick="changeAnimation()" value="播放动画"/>
+	  <p id="lblTip">状态</p>
+	  <p id="ctlPanel"></p>
+	</center>
+  </body>  
+  <script>
+    /*
+	// PixiJS启动测试
+    const type = "WebGL";
+	if (!PIXI.utils.isWebGLSupported()) {
+		type = "canvas";
+	}
+	PIXI.utils.sayHello(type);
+	console.log(type);
+    */
+	
+	let upgradeCage = null;
+	let spine = null;
+	let animationPath = "";
+	let animationName = "";
+	let animationScale = 0;
+    
+	
+	let width = window.innerWidth / 2;
+    let height = window.innerHeight / 2;
+	console.log("width: " + width + ", height: " + height);
+    const app = new PIXI.Application({ width: 640, height: 360 });
+	//document.body.appendChild(app.view);
+	document.getElementById("ctlPanel").appendChild(app.view);
+	
+	app.ticker.add(() => {
+		// update the spine spine, only needed if spine.autoupdate is set to false
+		if (spine != null) {
+		  spine.update(0.01666666666667); // HARDCODED FRAMERATE!
+		}
+	});
+	
+	loadSpine('levelup/upgrade.json', 'lv_enter', 0.00025);
+	
+	function loadSpine(path, name, scale) {
+		// load spine data
+		animationName = name;
+		animationPath = 'static/spine/' + path;
+		animationScale = scale;
+		
+		app.stop();
+		app.loader.reset();
+		app.loader
+			.add('spine', animationPath)
+			.load(onAssetsLoaded);
+	}	
+
+	function onAssetsLoaded(loader, res) {
+		// instantiate the spine spine
+		if (upgradeCage != null) {
+		  app.stage.removeChild(upgradeCage);
+		}		
+		
+		spine = new PIXI.spine.Spine(res.spine.spineData);
+		spine.skeleton.setToSetupPose();
+		spine.update(0);
+		spine.autoUpdate = false;
+
+		// create a container for the spine spine and add the spine to it
+		upgradeCage = new PIXI.Container();		
+		upgradeCage.addChild(spine);
+
+		// measure the spine spine and position it inside its container to align it to the origin
+		const localRect = spine.getLocalBounds();
+		spine.position.set(-localRect.x, -localRect.y);
+
+		// now we can scale, position and rotate the container as any other display object
+		const scale = Math.min(app.screen.width * animationScale, app.screen.height * animationScale);
+		
+		upgradeCage.scale.set(scale, scale);
+		upgradeCage.position.set(
+			(app.screen.width - upgradeCage.width) * 0.5,
+			(app.screen.height - upgradeCage.height) * 0.5,
+		);
+
+		// add the container to the stage
+		app.stage.addChild(upgradeCage);
+
+		// once position and scaled, set the spine to play
+		spine.state.setAnimation(0, animationName, true);
+
+		app.start();
+	}
+	
+	function changeAnimation() {
+      var selAnimation = document.getElementById("selAnimation");
+      var index = selAnimation.selectedIndex;
+	  var spine = selAnimation[index].text;
+	  var data = selAnimation[index].value;
+	  var parts = data.split('|');
+	  var path = parts[0];
+	  var name = parts[1];
+	  var scale = parts[2];
+	  console.log(path + ", " + name);
+	  loadSpine(path, name, scale);
+	  showTip('正在播放->' + spine);
+	}
+	
+    function showTip(text) {
+      document.getElementById("lblTip").innerText = text;
+    }
+  </script>
+</html>
