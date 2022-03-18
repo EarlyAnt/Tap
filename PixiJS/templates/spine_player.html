@@ -50,14 +50,14 @@
     let animationName = "";
 	let animationClip = "";
     let animationScale = 0;
-    let width = window.innerWidth / 2;
-    let height = window.innerHeight / 2;
+    let width = window.innerWidth / 1.75;
+    let height = window.innerHeight / 1.75;
 
     //初始化Pixi.Application
     console.log("global->width: " + width + ", height: " + height);
     const app = new PIXI.Application({
-      width: 640,
-      height: 360
+      width: width,
+      height: height
     });
     document.getElementById("ctlPanel").appendChild(app.view);
 
