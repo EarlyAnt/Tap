@@ -63,9 +63,8 @@
 
     //初始化时钟(相当于unity里的update函数)
     app.ticker.add(() => {
-      // update the spine spine, only needed if spine.autoupdate is set to false
       if (spine != null) {
-        spine.update(0.01666666666667); // HARDCODED FRAMERATE!
+        spine.update(0.01666666666667);//按每秒60帧的速度播放动画
       }
     });
 
@@ -89,29 +88,35 @@
         app.stage.removeChild(upgradeCage);
       }
 
+      //新建spine对象
       spine = new PIXI.spine.Spine(res.spine.spineData);
       spine.skeleton.setToSetupPose();
       spine.update(0);
       spine.autoUpdate = false;
+	  
+      //设置spine动画可点击，并绑定点击事件
+      spine.buttonMode = true;
+      spine.interactive = true;
+	  spine.on('pointerdown', clickAnimation);
 
-      // create a container for the spine spine and add the spine to it
+      //创建spine容器
       upgradeCage = new PIXI.Container();
       upgradeCage.addChild(spine);
 
-      // measure the spine spine and position it inside its container to align it to the origin
+      //计算spine动画大小和位置
       const localRect = spine.getLocalBounds();
       spine.position.set( - localRect.x, -localRect.y);
 
-      // now we can scale, position and rotate the container as any other display object
+      //设置spine动画缩放
       const scale = Math.min(app.screen.width * animationScale, app.screen.height * animationScale);
 
       upgradeCage.scale.set(scale, scale);
       upgradeCage.position.set((app.screen.width - upgradeCage.width) * 0.5, (app.screen.height - upgradeCage.height) * 0.5, );
 
-      // add the container to the stage
+      //将spine动画添加至舞台
       app.stage.addChild(upgradeCage);
 
-      // once position and scaled, set the spine to play
+      //播放spine动画
       spine.state.setAnimation(0, animationClip, true);
 
       app.start();
@@ -151,6 +156,8 @@
             selAnimationClip.add(option, null);
           }
         });
+		
+        playAnimation();
       });
     }
 
@@ -166,6 +173,20 @@
       loadSpine(animationPath, animationName, animationScale);
       showTip('正在播放: ' + animationName + "->" + animationClip);
     }
+	
+    function clickAnimation() {
+      var selAnimationClip = document.getElementById("selAnimationClip");
+      var count = selAnimationClip.length;
+	  var index = selAnimationClip.selectedIndex;
+	  console.log("clickAnimation->count: " + count + ", index: " + index);
+      
+	  index = (index + 1) % count;
+	  animationClip = selAnimationClip[index].value;
+	  selAnimationClip.selectedIndex = index;
+	  
+	  playAnimation();
+    }
+	
 
     //显示状态
     function showTip(text) {
