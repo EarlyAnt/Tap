@@ -1,197 +1,203 @@
 <!doctype html>
 <html>
-  
-  <head>
-    <script src="https://pixijs.download/release/pixi.js">
-    </script>
-    <script src="static/js/pixi/pixi-plugins/pixi-spine.js">
-    </script>
-  </head>
-  
-  <body>
-    <center>
-      <h1>
-        Spine动画演示
-      </h1>
-      <select id="selAnimation" style="width: auto;height: auto;font-size: 20px;"
-      onchange="changeAnimation(this.value)">
-        <option value="levelup/upgrade.json|lv_enter|0.00025" selected>
-          升级动画
-        </option>
-        <option value="strawberry/strawberry.json|01leaf1|0.001">
-          草莓动画
-        </option>
-        <option value="pineapple/pineapple.json|01leaf1|0.001">
-          菠萝动画
-        </option>
-        <option value="treasurebox/watingbox.json|box01|0.0005">
-          宝箱动画
-        </option>
-      </select>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <select id="selAnimationClip" style="width: 100px;height: auto;font-size: 20px;"
-      onchange="changeAnimationClip(this.value)">
-      </select>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <input id="" type="button" style="font-size: 18px;" onclick="playAnimation()"
-      value="播放动画" />
-      <p id="lblTip">
-        请选择动画
-      </p>
-      <p id="ctlPanel">
-      </p>
-    </center>
-  </body>
-  <script>
-    //全局变量声明
-    let upgradeCage = null;
-    let spine = null;
-    let animationPath = "";
-    let animationName = "";
-	let animationClip = "";
-    let animationScale = 0;
-    let width = window.innerWidth / 1.75;
-    let height = window.innerHeight / 1.75;
 
-    //初始化Pixi.Application
-    console.log("global->width: " + width + ", height: " + height);
-    const app = new PIXI.Application({
-      width: width,
-      height: height
-    });
-    document.getElementById("ctlPanel").appendChild(app.view);
-
-    //初始化时钟(相当于unity里的update函数)
-    app.ticker.add(() => {
-      if (spine != null) {
-        spine.update(0.01666666666667);//按每秒60帧的速度播放动画
-      }
-    });
-
-    //读取当前spine动画中的所有片段
-    var selAnimation = document.getElementById("selAnimation");
-    selAnimation.selectedIndex;
-    changeAnimation(selAnimation[selAnimation.selectedIndex].value);
-
-    //加载动画
-    function loadSpine() {
-      // load spine data		
-      app.stop();
-      app.loader.reset();
-      app.loader.add('spine', animationPath).load(onAssetsLoaded);
-    }
-
-    //播放动画
-    function onAssetsLoaded(loader, res) {
-      // instantiate the spine spine
-      if (upgradeCage != null) {
-        app.stage.removeChild(upgradeCage);
-      }
-
-      //新建spine对象
-      spine = new PIXI.spine.Spine(res.spine.spineData);
-      spine.skeleton.setToSetupPose();
-      spine.update(0);
-      spine.autoUpdate = false;
-	  
-      //设置spine动画可点击，并绑定点击事件
-      spine.buttonMode = true;
-      spine.interactive = true;
-	  spine.on('pointerdown', clickAnimation);
-
-      //创建spine容器
-      upgradeCage = new PIXI.Container();
-      upgradeCage.addChild(spine);
-
-      //计算spine动画大小和位置
-      const localRect = spine.getLocalBounds();
-      spine.position.set( - localRect.x, -localRect.y);
-
-      //设置spine动画缩放
-      const scale = Math.min(app.screen.width * animationScale, app.screen.height * animationScale);
-
-      upgradeCage.scale.set(scale, scale);
-      upgradeCage.position.set((app.screen.width - upgradeCage.width) * 0.5, (app.screen.height - upgradeCage.height) * 0.5, );
-
-      //将spine动画添加至舞台
-      app.stage.addChild(upgradeCage);
-
-      //播放spine动画
-      spine.state.setAnimation(0, animationClip, true);
-
-      app.start();
-    }
-
-    //切换动画
-    function changeAnimation(value) {
-      console.log("changeAnimation->value: " + value);
-      var parts = value.split('|');
-      var path = parts[0];
-      var clip = parts[1];
-      var scale = parts[2];	  
-	  
-	  var selAnimation = document.getElementById("selAnimation");
-      var name = selAnimation[selAnimation.selectedIndex].text;
-
-      animationName = name;
-      animationPath = 'static/spine/' + path;
-	  animationClip = clip;
-      animationScale = scale;
-
-      app.stop();
-      app.loader.reset();
-      app.loader.add('spine', 'static/spine/' + path).load((loader, resources) => {
-        var selAnimationClip = document.getElementById("selAnimationClip");
-        selAnimationClip.innerHTML = "";
-        spine = new PIXI.spine.Spine(resources.spine.spineData);
-        let array = spine.state.data.skeletonData.animations;
-        array.forEach((item, index) => {
-          console.log("changeAnimation->item: " + item.name + ", index: " + index);
-          var option = document.createElement("option");
-          option.text = item.name;
-          try {
-            // 对于更早的版本IE8
-            selAnimationClip.add(option, x.options[null]);
-          } catch(e) {
-            selAnimationClip.add(option, null);
-          }
-        });
-		
-        playAnimation();
-      });
-    }
-
-    //切换动画片段
-    function changeAnimationClip(value) {
-      console.log("changeAnimationClip->value: " + value);
-      animationClip = value;
-    }
-
-    //播放动画
-    function playAnimation() {
-      console.log("playAnimation->animationPath: " + animationPath + ", animationName: " + animationName + ", animationClip: " + animationClip + ", animationScale: " + animationScale);
-      loadSpine(animationPath, animationName, animationScale);
-      showTip('正在播放: ' + animationName + "->" + animationClip);
-    }
-	
-    function clickAnimation() {
-      var selAnimationClip = document.getElementById("selAnimationClip");
-      var count = selAnimationClip.length;
-	  var index = selAnimationClip.selectedIndex;
-	  console.log("clickAnimation->count: " + count + ", index: " + index);
-      
-	  index = (index + 1) % count;
-	  animationClip = selAnimationClip[index].value;
-	  selAnimationClip.selectedIndex = index;
-	  
-	  playAnimation();
-    }
-	
-
-    //显示状态
-    function showTip(text) {
-      document.getElementById("lblTip").innerText = text;
-    }
+<head>
+  <script src="https://pixijs.download/release/pixi.js">
   </script>
+  <script src="static/js/pixi/pixi-plugins/pixi-spine.js">
+  </script>
+</head>
+
+<body>
+  <center>
+    <h1>
+      Spine动画演示
+    </h1>
+    <select id="selAnimation" style="width: auto;height: auto;font-size: 20px;" onchange="changeAnimation(this.value)">
+      <option value="levelup/upgrade.json|lv_enter|0.00025" selected>
+        升级动画
+      </option>
+      <option value="strawberry/strawberry.json|01leaf1|0.001">
+        草莓动画
+      </option>
+      <option value="pineapple/pineapple.json|01leaf1|0.001">
+        菠萝动画
+      </option>
+      <option value="treasurebox/watingbox.json|box01|0.0005">
+        宝箱动画
+      </option>
+      <option value="anicut/anicut.json|animation|0.00012">
+        过场动画
+      </option>
+      <option value="bucket/bucket.json|animation|0.0005">
+        签筒动画
+      </option>
+    </select>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <select id="selAnimationClip" style="width: 100px;height: auto;font-size: 20px;"
+      onchange="changeAnimationClip(this.value)">
+    </select>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="" type="button" style="font-size: 18px;" onclick="playAnimation()" value="播放动画" />
+    <p id="lblTip">
+      请选择动画
+    </p>
+    <p id="ctlPanel">
+    </p>
+  </center>
+</body>
+<script>
+  //全局变量声明
+  let upgradeCage = null;
+  let spine = null;
+  let animationPath = "";
+  let animationName = "";
+  let animationClip = "";
+  let animationScale = 0;
+  let width = window.innerWidth / 1.75;
+  let height = window.innerHeight / 1.75;
+
+  //初始化Pixi.Application
+  console.log("global->width: " + width + ", height: " + height);
+  const app = new PIXI.Application({
+    width: width,
+    height: height
+  });
+  document.getElementById("ctlPanel").appendChild(app.view);
+
+  //初始化时钟(相当于unity里的update函数)
+  app.ticker.add(() => {
+    if (spine != null) {
+      spine.update(0.01666666666667);//按每秒60帧的速度播放动画
+    }
+  });
+
+  //读取当前spine动画中的所有片段
+  var selAnimation = document.getElementById("selAnimation");
+  selAnimation.selectedIndex;
+  changeAnimation(selAnimation[selAnimation.selectedIndex].value);
+
+  //加载动画
+  function loadSpine() {
+    // load spine data		
+    app.stop();
+    app.loader.reset();
+    app.loader.add('spine', animationPath).load(onAssetsLoaded);
+  }
+
+  //播放动画
+  function onAssetsLoaded(loader, res) {
+    // instantiate the spine spine
+    if (upgradeCage != null) {
+      app.stage.removeChild(upgradeCage);
+    }
+
+    //新建spine对象
+    spine = new PIXI.spine.Spine(res.spine.spineData);
+    spine.skeleton.setToSetupPose();
+    spine.update(0);
+    spine.autoUpdate = false;
+
+    //设置spine动画可点击，并绑定点击事件
+    spine.buttonMode = true;
+    spine.interactive = true;
+    spine.on('pointerdown', clickAnimation);
+
+    //创建spine容器
+    upgradeCage = new PIXI.Container();
+    upgradeCage.addChild(spine);
+
+    //计算spine动画大小和位置
+    const localRect = spine.getLocalBounds();
+    spine.position.set(- localRect.x, -localRect.y);
+
+    //设置spine动画缩放
+    const scale = Math.min(app.screen.width * animationScale, app.screen.height * animationScale);
+
+    upgradeCage.scale.set(scale, scale);
+    upgradeCage.position.set((app.screen.width - upgradeCage.width) * 0.5, (app.screen.height - upgradeCage.height) * 0.5,);
+
+    //将spine动画添加至舞台
+    app.stage.addChild(upgradeCage);
+
+    //播放spine动画
+    //spine.state.setAnimation(0, animationClip, true);
+    //spine.state.setAnimation(0, animationClip, true).onComplete = showTip(new Date().toLocaleString() + "->complete");
+    spine.state.setAnimation(0, animationClip, true).onComplete = clickAnimation;
+
+    app.start();
+  }
+
+  //切换动画
+  function changeAnimation(value) {
+    console.log("changeAnimation->value: " + value);
+    var parts = value.split('|');
+    var path = parts[0];
+    var clip = parts[1];
+    var scale = parts[2];
+
+    var selAnimation = document.getElementById("selAnimation");
+    var name = selAnimation[selAnimation.selectedIndex].text;
+
+    animationName = name;
+    animationPath = 'static/spine/' + path;
+    animationClip = clip;
+    animationScale = scale;
+
+    app.stop();
+    app.loader.reset();
+    app.loader.add('spine', 'static/spine/' + path).load((loader, resources) => {
+      var selAnimationClip = document.getElementById("selAnimationClip");
+      selAnimationClip.innerHTML = "";
+      spine = new PIXI.spine.Spine(resources.spine.spineData);
+      let array = spine.state.data.skeletonData.animations;
+      array.forEach((item, index) => {
+        console.log("changeAnimation->item: " + item.name + ", index: " + index);
+        var option = document.createElement("option");
+        option.text = item.name;
+        try {
+          // 对于更早的版本IE8
+          selAnimationClip.add(option, x.options[null]);
+        } catch (e) {
+          selAnimationClip.add(option, null);
+        }
+      });
+
+      playAnimation();
+    });
+  }
+
+  //切换动画片段
+  function changeAnimationClip(value) {
+    console.log("changeAnimationClip->value: " + value);
+    animationClip = value;
+  }
+
+  //播放动画
+  function playAnimation() {
+    console.log("playAnimation->animationPath: " + animationPath + ", animationName: " + animationName + ", animationClip: " + animationClip + ", animationScale: " + animationScale);
+    loadSpine(animationPath, animationName, animationScale);
+    showTip('正在播放: ' + animationName + "->" + animationClip);
+  }
+
+  function clickAnimation() {
+    var selAnimationClip = document.getElementById("selAnimationClip");
+    var count = selAnimationClip.length;
+    var index = selAnimationClip.selectedIndex;
+    console.log("clickAnimation->count: " + count + ", index: " + index);
+
+    index = (index + 1) % count;
+    animationClip = selAnimationClip[index].value;
+    selAnimationClip.selectedIndex = index;
+
+    playAnimation();
+  }
+
+
+  //显示状态
+  function showTip(text) {
+    document.getElementById("lblTip").innerText = text;
+  }
+</script>
 
 </html>

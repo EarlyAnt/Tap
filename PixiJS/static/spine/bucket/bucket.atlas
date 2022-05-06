@@ -1,0 +1,97 @@
+
+bucket.png
+size: 1536,1289
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+B_bucket
+  rotate: false
+  xy: 967, 4
+  size: 539, 596
+  orig: 539, 596
+  offset: 0, 0
+  index: -1
+F_bucket
+  rotate: true
+  xy: 969, 604
+  size: 539, 563
+  orig: 539, 563
+  offset: 0, 0
+  index: -1
+line01
+  rotate: true
+  xy: 344, 1148
+  size: 137, 155
+  orig: 137, 155
+  offset: 0, 0
+  index: -1
+qian01
+  rotate: true
+  xy: 4, 5
+  size: 301, 943
+  orig: 302, 943
+  offset: 1, 0
+  index: -1
+qian02
+  rotate: true
+  xy: 4, 996
+  size: 147, 961
+  orig: 147, 961
+  offset: 0, 0
+  index: -1
+qian03
+  rotate: true
+  xy: 4, 310
+  size: 282, 947
+  orig: 282, 947
+  offset: 0, 0
+  index: -1
+qian04
+  rotate: true
+  xy: 4, 596
+  size: 197, 959
+  orig: 198, 959
+  offset: 1, 0
+  index: -1
+qian05
+  rotate: true
+  xy: 4, 797
+  size: 195, 958
+  orig: 196, 960
+  offset: 1, 1
+  index: -1
+qian06
+  rotate: true
+  xy: 503, 1147
+  size: 138, 961
+  orig: 139, 961
+  offset: 1, 0
+  index: -1
+star01
+  rotate: true
+  xy: 69, 1232
+  size: 53, 87
+  orig: 53, 87
+  offset: 0, 0
+  index: -1
+star02
+  rotate: true
+  xy: 4, 1248
+  size: 37, 61
+  orig: 37, 61
+  offset: 0, 0
+  index: -1
+star03
+  rotate: true
+  xy: 160, 1218
+  size: 67, 109
+  orig: 67, 109
+  offset: 0, 0
+  index: -1
+star04
+  rotate: false
+  xy: 273, 1218
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: -1

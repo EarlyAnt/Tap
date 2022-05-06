@@ -24,7 +24,7 @@ def download_file(filename):
 	return send_file('static/' + filename, as_attachment=True)
 
 app.run(
-      #host='192.168.0.103',
+      #host='192.168.0.108',
       host='0.0.0.0',
       port= 5000,
       debug=True
