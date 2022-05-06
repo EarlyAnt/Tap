@@ -1,4 +1,5 @@
-<html>  
+<html>
+  
   <head>
     <meta content="text/html; charset=utf-8" http-equiv="content-type" />
   </head>
@@ -25,7 +26,6 @@
       </p>
     </center>
   </body>
-
   <script>
     function upload() {
       //showTip("<><upload_1>start + + + + +");
@@ -34,7 +34,7 @@
       formData.append('photo.jpg', file);
       //showTip("<><upload_2>file count: " + document.getElementById('file').files.length);
       var request = new XMLHttpRequest();
-      request.open('POST', 'http://192.168.0.102:5000/upload');
+      request.open('POST', 'http://192.168.0.106:5000/upload');
 
       //获取上传进度
       request.upload.onprogress = function(event) {
@@ -60,7 +60,7 @@
     }
 
     function download(fileName) {
-      var url = "http://192.168.0.102:5000/download/" + fileName;
+      var url = "http://192.168.0.106:5000/download/" + fileName;
       //showTip("<><download_1>url: " + url);
       var request = new XMLHttpRequest();
       request.open('GET', url, true);
@@ -101,40 +101,64 @@
     }
 
     function sharePoster() {
+      var file = document.querySelector('#file').files[0];
+      if (file == null) {
+        showTip("请先拍照或从相册选择图片！");
+        return;
+      }
+
+      console.log("->file: " + file);
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = function() {
+        var base64 = reader.result;
+        console.log("->base64: " + base64);
+        sharePosterCore(base64);
+      }
+    }
+
+    function sharePosterCore(imgBase64) {
       connectWebViewJavascriptBridge(function(bridge) {
+        showTip("sharePoster + + + + + 1");
 
         let params = {
           "title": "邀好友得优惠",
-          "url": "http://192.168.0.102:5000/share.html",
-          "imageUrl": "http://192.168.0.102:5000/share.png",
-          "thumbUrl": "http://192.168.0.102:5000/share.png",
+          //"url": "http://192.168.0.106:5000/share.html",
+          "url": "http://192.168.0.106:5000/static/share.png",
+          //"imageUrl": "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.jj20.com%2Fup%2Fallimg%2F4k%2Fs%2F01%2F210924112G45P3-0-lp.jpg&refer=http%3A%2F%2Fimg.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1650531920&t=73f11543cdd53472ada1a5bc9e888bf7",
+          "posterImg": imgBase64,
+          "thumbUrl": "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.jj20.com%2Fup%2Fallimg%2F4k%2Fs%2F01%2F210924112G45P3-0-lp.jpg&refer=http%3A%2F%2Fimg.jj20.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1650531920&t=73f11543cdd53472ada1a5bc9e888bf7",
           "content": "被成功邀请1位好友注册，即可获得惊喜优惠产品",
           "channels": [{
             "channel": 0,
-            "type": 2
+            "type": 1
           },
           {
             "channel": 1,
-            "type": 2
+            "type": 1
           },
           {
             "channel": 2,
             "type": 2
+          },
+          {
+            "channel": 3,
+            "type": 1
           }]
         }
+        showTip("sharePoster + + + + + 2");
         bridge.callHandler("startShare", JSON.stringify(params),
         function(responseData) {
-          //showTip(responseData);
+          showTip(responseData);
         });
       })
-      //showTip("sharePoster + + + + + ");
+      //showTip("sharePoster + + + + + 4");
     }
 
     function showTip(text) {
       document.getElementById("lblTip").innerText = text;
     }
   </script>
-  
   <style>
 	.fileBtn {
 	  position: relative;
