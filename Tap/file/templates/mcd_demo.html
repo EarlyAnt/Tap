@@ -17,6 +17,8 @@
         <br />
         <input type="button" value="分享海报" style="font-size: 30px;" onclick="sharePoster()"
         />
+        <input type="button" value="下海捞金" style="font-size: 30px;" onclick="gotoNativePage()"
+        />		
         <br />
       </p>
       <p style="width: 100%;">
@@ -154,6 +156,10 @@
       })
       //showTip("sharePoster + + + + + 4");
     }
+
+    function gotoNativePage() {
+	  window.location.href="mcdapp://page?iosPageName=MCDProductListViewController&androidPageName=ComponentProduct&androidPageAction=menu_list&parameters={\"orderType\":\"1\"}"
+	}
 
     function showTip(text) {
       document.getElementById("lblTip").innerText = text;
