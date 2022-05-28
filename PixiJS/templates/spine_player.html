@@ -2,10 +2,10 @@
 <html>
 
 <head>
-  <script src="https://pixijs.download/release/pixi.js">
-  </script>
-  <script src="static/js/pixi/pixi-plugins/pixi-spine.js">
-  </script>
+  <script src="https://pixijs.download/release/pixi.js"></script>
+  <script src="../static/js/pixi/pixi-plugins/pixi-spine.js"></script>
+  <!--1.python server 要求所有静态资源必须放到static目录中，而js脚本放到template目录中-->
+  <!--2.live preview 需要定位到js脚本所在的template路径的父目录下的static目录，所以使用../先定位到template的上级目录-->
 </head>
 
 <body>
@@ -14,22 +14,22 @@
       Spine动画演示
     </h1>
     <select id="selAnimation" style="width: auto;height: auto;font-size: 20px;" onchange="changeAnimation(this.value)">
-      <option value="levelup/upgrade.json|lv_enter|0.00025" selected>
+      <option value="static/spine/levelup/upgrade.json|lv_enter|0.00025" selected>
         升级动画
       </option>
-      <option value="strawberry/strawberry.json|01leaf1|0.001">
+      <option value="static/spine/strawberry/strawberry.json|01leaf1|0.001">
         草莓动画
       </option>
-      <option value="pineapple/pineapple.json|01leaf1|0.001">
+      <option value="static/spine/pineapple/pineapple.json|01leaf1|0.001">
         菠萝动画
       </option>
-      <option value="treasurebox/watingbox.json|box01|0.0005">
+      <option value="static/spine/treasurebox/watingbox.json|box01|0.0005">
         宝箱动画
       </option>
-      <option value="anicut/anicut.json|animation|0.00012">
+      <option value="static/spine/anicut/anicut.json|animation|0.00012">
         过场动画
       </option>
-      <option value="bucket/bucket.json|animation|0.0005">
+      <option value="static/spine/bucket/bucket.json|animation|0.0005">
         签筒动画
       </option>
     </select>
@@ -139,14 +139,17 @@
     var selAnimation = document.getElementById("selAnimation");
     var name = selAnimation[selAnimation.selectedIndex].text;
 
+    rootPath = '../'; //live preview使用../
+    // rootPath = ""; //python server使用空字符串
+
     animationName = name;
-    animationPath = 'static/spine/' + path;
+    animationPath = rootPath + path;
     animationClip = clip;
     animationScale = scale;
 
     app.stop();
     app.loader.reset();
-    app.loader.add('spine', 'static/spine/' + path).load((loader, resources) => {
+    app.loader.add('spine', animationPath).load((loader, resources) => {
       var selAnimationClip = document.getElementById("selAnimationClip");
       selAnimationClip.innerHTML = "";
       spine = new PIXI.spine.Spine(resources.spine.spineData);
