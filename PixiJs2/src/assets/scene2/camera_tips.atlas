@@ -1,0 +1,97 @@
+
+camera_tips.png
+size: 1915,1543
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Logo_McD
+  rotate: false
+  xy: 1826, 944
+  size: 59, 52
+  orig: 59, 52
+  offset: 0, 0
+  index: -1
+circle01
+  rotate: true
+  xy: 527, 57
+  size: 136, 135
+  orig: 136, 135
+  offset: 0, 0
+  index: -1
+circle02
+  rotate: false
+  xy: 1613, 313
+  size: 298, 350
+  orig: 299, 350
+  offset: 0, 0
+  index: -1
+circle03
+  rotate: false
+  xy: 527, 197
+  size: 396, 396
+  orig: 396, 396
+  offset: 0, 0
+  index: -1
+circle04
+  rotate: false
+  xy: 4, 74
+  size: 519, 519
+  orig: 519, 519
+  offset: 0, 0
+  index: -1
+circle05
+  rotate: true
+  xy: 1613, 92
+  size: 217, 291
+  orig: 217, 292
+  offset: 0, 0
+  index: -1
+circle06
+  rotate: false
+  xy: 950, 4
+  size: 659, 659
+  orig: 659, 659
+  offset: 0, 0
+  index: -1
+circle07
+  rotate: false
+  xy: 1826, 1198
+  size: 68, 341
+  orig: 68, 341
+  offset: 0, 0
+  index: -1
+circle08
+  rotate: false
+  xy: 950, 667
+  size: 872, 872
+  orig: 872, 872
+  offset: 0, 0
+  index: -1
+square
+  rotate: false
+  xy: 4, 597
+  size: 942, 942
+  orig: 942, 942
+  offset: 0, 0
+  index: -1
+star01
+  rotate: true
+  xy: 1826, 903
+  size: 37, 61
+  orig: 37, 61
+  offset: 0, 0
+  index: -1
+star02
+  rotate: false
+  xy: 1826, 1085
+  size: 67, 109
+  orig: 67, 109
+  offset: 0, 0
+  index: -1
+star03
+  rotate: false
+  xy: 1826, 1000
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
