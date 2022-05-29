@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+
+<head>
+    <style type="text/css">
+        #bg {
+            width: 100px;
+            height: 100px;
+            border: 2px solid red;
+        }
+    </style>
+
+    <script src="./js/libs/vconsole.min.js"></script>
+</head>
+
+<body>
+    <center>
+        <p1 id="bg" name="textbox">测试页面</p1><br /><br />
+    </center>
+    <div style="position: absolute;">
+        <p2>1. css和script一般可以放在head中，可以直接写代码，也可以引用外部代码。</p2><br />
+        <p2>2. script中如果有访问document的代码，则不能放在head中，要放到body下面。</p2><br />
+        <p2>3. window.onload函数在页面加载完成后执行</p2>
+    </div>
+</body>
+
+<script src="./js/app/init.js"></script>
+
+<script type="text/javascript">
+    var vConsole = new VConsole();
+</script>
+
+</html>
