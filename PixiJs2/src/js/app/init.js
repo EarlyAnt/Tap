@@ -20,10 +20,12 @@
 
     function init() {
         console.log("js脚本入口");
-        document.getElementById("bg").style.backgroundColor = "#F90";
-        console.log("3333");
 
         loadJSQue([
+            // 第三方库：远端库
+            "https://cdn.staticfile.org/qiniu-js/3.4.0/qiniu.min.js",
+            "https://pixijs.download/release/pixi.js",
+
             // 第三方库：本地库
             "./js/libs/gsap.min.js",
             "./js/libs/pixi.min.js",
@@ -34,10 +36,6 @@
             // "./js/app/server.js",
             "./js/app/main.js",
             //replace end
-
-            // 第三方库：远端库
-            "https://cdn.staticfile.org/qiniu-js/3.4.0/qiniu.min.js",
-            "https://pixijs.download/release/pixi.js",
         ], (p) => {
             // setMainLoading(p*50);
         });
@@ -66,7 +64,5 @@
     }
     $.loadJS = loadJS;
 
-    console.log("1111");
     window.onload = init();
-    console.log("2222");
 }();

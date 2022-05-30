@@ -34,7 +34,6 @@
     //主内容容器
     let mainContainer;
     let overlay;
-
     // 脚本入口
     function init() {
         //基于设计稿的尺寸创建PIXI App对象
@@ -156,16 +155,16 @@
             'assets/poster/prop_pepper.png',
             'assets/poster/prop_ketchup.png',
 
-            // // 场景逻辑，最后整合成一个文件
-            // //replace start
-            // 'js/app/scenes/scene1.js',
-            // 'js/app/scenes/scene2.js',
+            // 场景逻辑，最后整合成一个文件
+            //replace start
+            'js/app/scenes/scene1.js',
+            'js/app/scenes/scene2.js',
             // 'js/app/scenes/scene3.js',
             // 'js/app/scenes/scene4.js',
             // 'js/app/scenes/scene5.js',
             // 'js/app/scenes/scene6.js',
             // 'js/app/scenes/scene7.js'
-            // //replace end
+            //replace end
         ], (e) => {
             //使用loading div显示静态资源加载总进度
             $.setMainLoading(50 + Math.round(e.progress) / 100 * 50);
@@ -173,7 +172,6 @@
             onLoad();
         });
     }
-
     //统一加载静态资源的函数
     function loadAllAssets(resources, pcb, ccb) {
         for (let i = 0; i < resources.length; i++) {
@@ -193,8 +191,7 @@
         });
 
         loader.onLoad.add((e) => {
-            console.log(Object.keys(e.resources));
-
+            // console.log(Object.keys(e.resources));
         });
 
         if (pcb) loader.onProgress.add(pcb);
@@ -202,10 +199,62 @@
 
         loader.load();
     }
-
+    //获取已加载的静态资源
+    function getAsset(key) {
+        // console.log("resources: " + loader.resources[key].name);
+        return loader.resources[key];
+    }
     //同步重绘，暂时没用到
     function loop(delta) {
         elapsed += delta;
+    }
+    //初始化场景
+    function onLoad() {
+        console.log("onLoad");
+        let tContainer = new PIXI.Container();
+        app.stage.addChild(tContainer);
+
+        let img_bg = new PIXI.Sprite(getAsset("assets/main/bg.png").texture);
+        tContainer.addChild(img_bg);
+
+        var bucket = new PIXI.spine.Spine(getAsset("assets/main/bucket.json").spineData);
+        tContainer.addChild(bucket);
+        bucket.autoUpdate = true;
+        bucket.state.timeScale = 1.6;
+        bucket.y = -160;
+        bucket.state.setAnimation(0, 'animation', true);
+
+        let btn_next = new PIXI.Sprite(getAsset("assets/main/btn_next.png").texture);
+        btn_next.x = 261;
+        btn_next.y = sysInfo.viewport.height - (86 + 240);
+        tContainer.addChild(btn_next);
+
+        btn_next.interactive = btn_next.buttonMode = true;
+        btn_next.on('pointerdown', (e) => {
+            switchScene(1);
+        });
+
+        overlay = new PIXI.Sprite();
+        let gr = new PIXI.Graphics();
+        gr.beginFill(0x000);
+        gr.drawRect(0, 0, sysInfo.viewport.width, sysInfo.viewport.height);
+        gr.endFill();
+        overlay.addChild(gr);
+        gr.alpha = .9;
+        app.stage.addChild(overlay);
+        overlay.y = 0;
+        overlay.interactive = true;
+        overlay.visible = false;
+    }
+    //切换场景
+    function switchScene(index, args) {
+        //切换前先删除画面内容
+        app.stage.removeChild(mainContainer);
+        mainContainer = new PIXI.Container();
+        app.stage.addChild(mainContainer);
+        //调用场景配置函数
+        console.log("switch scene[" + index + "], args[" + args +"]");
+        this['scene' + index](args);
     }
 
     init();

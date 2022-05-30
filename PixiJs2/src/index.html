@@ -2,20 +2,21 @@
 <html>
 
 <head>
-    <style type="text/css">
-        #bg {
-            width: 100px;
-            height: 100px;
-            border: 2px solid red;
-        }
-    </style>
+    <title>H5小游戏</title>
 
+    <link rel="stylesheet" type="text/css" href="./css/app.css">
     <script src="./js/libs/vconsole.min.js"></script>
+
+    <script src="./js/app/init.js"></script>
+    <script type="text/javascript">
+        var vConsole = new VConsole();
+    </script>
 </head>
 
 <body>
     <center>
-        <p1 id="bg" name="textbox">测试页面</p1><br /><br />
+        <!-- <p1 id="bg" name="textbox">测试页面</p1><br /><br /> -->
+        <img id="btnUpload" src="./assets/scene2/btn_next.png" style="width: 180px;position: absolute;z-index: 2;left:50%;margin-left: -90px;bottom: 30px;display: none;"/>
         <div class="loading">
             <img src="./assets/loading/flower.png" style="width:70px;" />
             <div class="progress">
@@ -28,11 +29,5 @@
         </div>
     </center>
 </body>
-
-<script src="./js/app/init.js"></script>
-
-<script type="text/javascript">
-    var vConsole = new VConsole();
-</script>
 
 </html>
