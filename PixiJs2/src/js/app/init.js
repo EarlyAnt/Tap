@@ -21,6 +21,8 @@
     function init() {
         console.log("js脚本入口");
 
+        $.mid = "MEDDY936193133884029188";
+
         loadJSQue([
             // 第三方库：远端库
             "https://cdn.staticfile.org/qiniu-js/3.4.0/qiniu.min.js",
@@ -33,7 +35,7 @@
             "./js/libs/pixi.textinput.min.js",
             "./js/libs/weui.min.js",
             //replace start
-            // "./js/app/server.js",
+            "./js/app/server.js",
             "./js/app/main.js",
             //replace end
         ], (p) => {
