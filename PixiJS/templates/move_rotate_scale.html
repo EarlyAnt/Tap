@@ -1,147 +1,200 @@
 <!doctype html>
 <html>
-  <head>
-    <script src="https://pixijs.download/release/pixi.js"></script>
-  </head>
+
+<head>
+  <title>形变动画测试</title>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1">
+  <script src="https://pixijs.download/release/pixi.js"></script>
+
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+
+      margin: 0px;
+      padding: 0px;
+    }
+
+    .page {
+      background-color: khaki;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      justify-items: center;
+    }
+
+    h1,
+    p {
+      /* background-color: tomato; */
+      text-align: center;
+    }
+
+    .menu {
+      /* background-color: thistle; */
+      width: 100%;
+      height: auto;
+
+      display: flex;
+      justify-content: center;
+    }
+
+    select {
+      width: 50%;
+      font-size: 1.2rem;
+    }
+
+    #ctlPanel {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+
 <body>
-  <center>
-    <h1>
+  <div class="page">
+    <h1 class="title">
       Hello PixiJS
     </h1>
-    <select id="selEffect" style="width: auto;height: auto;font-size: 20px;"
-    onchange="changeEffect(this.selectedIndex)">
-      <option value=0 selected>位移动画</option>
-      <option value=1>旋转动画</option>
-      <option value=2>缩放动画</option>
-      <option value=3>渐变动画</option>
-    </select>
-    <p id="ctlPanel" />
-    <p id="lblTip" style="width: 50%;">
+    <div class="menu">
+      <select id="selEffect" onchange="changeEffect(this.selectedIndex)">
+        <option value=0 selected>位移动画</option>
+        <option value=1>旋转动画</option>
+        <option value=2>缩放动画</option>
+        <option value=3>渐变动画</option>
+      </select>
+    </div>
+    <div id="ctlPanel"></div>
+    <p id="lblTip">
       状态
     </p>
-  </center>
-</body>
-<script>
-  let sprite = null;
-  let elapsed = 0.0;
-  let effectIndex = 0;
-  let playAnimation = false;
-  let width = window.innerWidth / 1.75;
-  let height = window.innerHeight / 1.75;
+  </div>
 
-  let app = new PIXI.Application({
-    width: 640,
-    height: 360
-  });
-  let x = app.screen.width / 2;
-  let y = app.screen.height / 2;
-  console.log('x: ' + x + ', y: ' + y);
-  document.getElementById("ctlPanel").appendChild(app.view);
-  changeEffect(0);
+  <script>
+    let sprite = null;
+    let elapsed = 0.0;
+    let effectIndex = 0;
+    let playAnimation = false;
+    let width = window.innerWidth / 1.75;
+    let height = window.innerHeight / 1.75;
 
-  app.ticker.add((delta) => {
-    if (playAnimation) {
-      switch (effectIndex) {
-      case 0:
-        move(delta);
-        break;
-      case 1:
-        rotate(delta);
-        break;
-      case 2:
-        scale(delta);
-        break;
-      case 3:
-        fade(delta);
-        break;
+    let app = new PIXI.Application({
+      width: 640,
+      height: 360
+    });
+    let x = app.screen.width / 2;
+    let y = app.screen.height / 2;
+    console.log('x: ' + x + ', y: ' + y);
+    document.getElementById("ctlPanel").appendChild(app.view);
+    changeEffect(0);
+
+    app.ticker.add((delta) => {
+      if (playAnimation) {
+        switch (effectIndex) {
+          case 0:
+            move(delta);
+            break;
+          case 1:
+            rotate(delta);
+            break;
+          case 2:
+            scale(delta);
+            break;
+          case 3:
+            fade(delta);
+            break;
+        }
       }
+    });
+
+    function changeEffect(value) {
+      console.log("changeEffect->value: " + value);
+
+      playAnimation = false;
+      effectIndex = value;
+      elapsed = 0.0;
+
+      if (sprite != null) {
+        app.stage.removeChild(sprite);
+      }
+
+      var imagePath = "";
+      switch (value) {
+        case 0:
+          imagePath = 'static/transform_1.jpg';
+          break;
+        case 1:
+          imagePath = 'static/transform_2.jpg';
+          break;
+        case 2:
+          imagePath = 'static/transform_3.jpg';
+          break;
+        case 3:
+          imagePath = 'static/transform_4.jpg';
+          break;
+      }
+      console.log("changeEffect->imagePath: " + imagePath);
+
+      sprite = PIXI.Sprite.from(imagePath);
+      sprite.width = app.screen.width / 4;
+      sprite.height = app.screen.height / 4;
+
+      switch (value) {
+        case 0:
+          sprite.x = 0;
+          break;
+        case 1:
+        case 2:
+        case 3:
+          sprite.x = (app.view.width - sprite.width) / 2;
+          break;
+      }
+      sprite.y = (app.screen.height - sprite.height) / 2;
+
+      sprite.interactive = true;
+      sprite.buttonMode = true;
+      sprite.on('pointerdown', image_click);
+      app.stage.addChild(sprite);
+
+      var selEffect = document.getElementById("selEffect");
+      showTip("正在演示->" + selEffect[value].innerText);
     }
-  });
 
-  function changeEffect(value) {
-    console.log("changeEffect->value: " + value);
-
-    playAnimation = false;
-    effectIndex = value;
-    elapsed = 0.0;
-
-    if (sprite != null) {
-      app.stage.removeChild(sprite);
+    function move(delta) {
+      elapsed += delta;
+      sprite.x = Math.sin(elapsed / 30.0) * 100.0;
     }
 
-    var imagePath = "";
-    switch (value) {
-    case 0:
-      imagePath = 'static/transform_1.jpg';
-      break;
-    case 1:
-      imagePath = 'static/transform_2.jpg';
-      break;
-    case 2:
-      imagePath = 'static/transform_3.jpg';
-      break;
-    case 3:
-      imagePath = 'static/transform_4.jpg';
-      break;
+    function rotate(delta) {
+      elapsed += delta;
+      sprite.x = (app.screen.width - sprite.width) / 2;
+      sprite.rotation = elapsed / 10 % 360;
     }
-    console.log("changeEffect->imagePath: " + imagePath);
 
-    sprite = PIXI.Sprite.from(imagePath);
-    sprite.width = app.screen.width / 4;
-    sprite.height = app.screen.height / 4;
-
-    switch (value) {
-    case 0:
-      sprite.x = 0;
-      break;
-    case 1:
-    case 2:
-    case 3:
-      sprite.x = (app.view.width - sprite.width) / 2;
-      break;
+    function scale(delta) {
+      elapsed += delta;
+      scaleValue = (Math.cos(elapsed / 30.0) + 1) / 16;
+      sprite.scale.x = scaleValue;
+      sprite.scale.y = scaleValue;
     }
-    sprite.y = (app.screen.height - sprite.height) / 2;
 
-    sprite.interactive = true;
-    sprite.buttonMode = true;
-    sprite.on('pointerdown', image_click);
-    app.stage.addChild(sprite);
+    function fade(delta) {
+      elapsed += delta;
+      alphaValue = (Math.cos(elapsed / 30.0) + 1) / 2;
+      sprite.alpha = alphaValue;
+    }
 
-    var selEffect = document.getElementById("selEffect");
-    showTip("正在演示->" + selEffect[value].innerText);
-  }
+    function image_click() {
+      playAnimation = !playAnimation;
+      showTip(playAnimation ? '播放' : '暂停');
+    }
 
-  function move(delta) {
-    elapsed += delta;
-    sprite.x = Math.sin(elapsed / 30.0) * 100.0;
-  }
+    function showTip(text) {
+      document.getElementById("lblTip").innerText = text;
+    }
+  </script>
+</body>
 
-  function rotate(delta) {
-    elapsed += delta;
-    sprite.x = (app.screen.width - sprite.width) / 2;
-    sprite.rotation = elapsed / 10 % 360;
-  }
-
-  function scale(delta) {
-    elapsed += delta;
-    scaleValue = (Math.cos(elapsed / 30.0) + 1) / 16;
-    sprite.scale.x = scaleValue;
-    sprite.scale.y = scaleValue;
-  }
-
-  function fade(delta) {
-    elapsed += delta;
-    alphaValue = (Math.cos(elapsed / 30.0) + 1) / 2;
-    sprite.alpha = alphaValue;
-  }
-
-  function image_click() {
-    playAnimation = !playAnimation;
-    showTip(playAnimation ? '播放': '暂停');
-  }
-
-  function showTip(text) {
-    document.getElementById("lblTip").innerText = text;
-  }
-</script>
 </html>
